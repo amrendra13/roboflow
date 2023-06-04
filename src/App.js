@@ -25,8 +25,12 @@ function App() {
         }
       })
       .then(function(response) {
-        let responseClass = response.data["predictions"][1]["class"];
-        setResult(map.get(responseClass));
+        let predictions = response.data["predictions"];
+        for (let i = 0; i < predictions.length; i ++) {
+          if (map.has(predictions[i]["class"]) === true) {
+            setResult(map.get(predictions[i]["class"]));
+          }
+        }
         setUploadedImgSrc(URL.createObjectURL(file));
       })
       .catch(function(error) {
