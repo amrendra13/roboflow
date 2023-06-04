@@ -7,7 +7,7 @@ function App() {
   const [result, setResult] = useState("");
   const [uploadedImgSrc, setUploadedImgSrc] = useState("");
   const inputRef = useRef();
-  
+  const map = new Map([["PMAY-Logo", "FULL HOUSE"], ["Class2", "HALF HOUSE"]]);
   const callApi = async () => {
 
     const file = inputRef.current.files[0];
@@ -25,7 +25,8 @@ function App() {
         }
       })
       .then(function(response) {
-        setResult(response.data);
+        let responseClass = response.data["predictions"][1]["class"];
+        setResult(map.get(responseClass));
         setUploadedImgSrc(URL.createObjectURL(file));
       })
       .catch(function(error) {
@@ -42,7 +43,7 @@ function App() {
       <br></br>
       <button onClick={callApi}>Submit</button>
       <br></br>
-      <div>{JSON.stringify(result)}</div>
+      <h2>{result}</h2>
       <img src={uploadedImgSrc} alt="imge"></img>
     </div>
   );
